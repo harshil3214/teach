@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Aura Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            /* Changed main text variable to black */
+            --text-black: #000000;
+            /* Increased opacity for better readability of black text */
+            --glass-bg: rgba(255, 255, 255, 0.85); 
+        }
+
+        body { 
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #e5e7eb;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-black); /* Body text black */
+        }
+
+        .signup-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 50px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            text-align: center;
+            color: var(--text-black); /* Card text black */
+        }
+
+        h2 { font-weight: 600; margin-bottom: 30px; font-size: 2rem; color: var(--text-black); }
+
+        form p { text-align: left; margin-bottom: 20px; color: var(--text-black); }
+        
+        /* Label text color */
+        label { color: var(--text-black); font-weight: 500; }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-top: 8px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.9);
+            color: #000; /* Input typing text black */
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .helptext {
+            font-size: 0.75rem;
+            color: #444; /* Dark grey for help text */
+            list-style: none;
+            padding: 0;
+            margin-top: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary-color);
+            color: white; /* Button text remains white for contrast */
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .login-link {
+            margin-top: 25px;
+            display: block;
+            color: var(--text-black); /* Login link black */
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .login-link b { color: var(--primary-color); }
+        
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white; /* Kept white because it sits directly on dark background */
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="{% url 'frontpage' %}" class="back-home">← Back to Market</a>
+
+    <div class="signup-card">
+        <h2>Create Account</h2>
+        <form method="post" action=".">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <p>
+                    {{ field.label_tag }}<br>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <div class="helptext">{{ field.help_text }}</div>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <div class="errorlist" style="color: #d32f2f; font-size: 0.8rem;">{{ error }}</div>
+                    {% endfor %}
+                </p>
+            {% endfor %}
+
+            <button type="submit">Join the Community</button>
+        </form>
+        
+        <a href="{% url 'login' %}" class="login-link">Already a vendor? <b>Login</b></a>
+    </div>
+
+</body>
+</html>
